@@ -4,8 +4,8 @@
     {
         public int Id { get; set; }
 
-        public item item { get; set; }
+        public Item Item { get; set; }
 
-        public ShoppingCart cart { get; set; }
+        public ShoppingCart Cart { get; set; }
     }
 }

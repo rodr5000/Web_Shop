@@ -9,8 +9,7 @@ namespace ShopSbS.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<ShoppingCart> ShoppingCarts { get; set; }
-        public DbSet<item> Items { get; set; }
-
+        public DbSet<Item> Items { get; set; }
    
 
         public AppDbContext(DbContextOptions<AppDbContext> options)

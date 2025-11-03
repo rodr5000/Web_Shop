@@ -1,6 +1,6 @@
 ﻿namespace Web_Shop.Models
 {
-    public class item
+    public class Item
     {
         public int Id { get; set; }
         public int productID { get; set; } 
