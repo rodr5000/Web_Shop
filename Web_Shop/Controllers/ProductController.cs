@@ -1,6 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using ShopSbS.Data;
-using System.Diagnostics;
 using Web_Shop.Models;
 
 namespace Web_Shop.Controllers
@@ -19,7 +24,75 @@ namespace Web_Shop.Controllers
             var products = _context.Products.ToList();
             return View(products);
         }
+        public IActionResult CreatePr()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult CreatePr(Product product)
+        {
+            if (ModelState.IsValid)
+            {
+                // If the user entered an image name, prepend /images/
+                if (!string.IsNullOrWhiteSpace(product.ImageUrl) && !product.ImageUrl.StartsWith("/images/"))
+                {
+                    product.ImageUrl = "/images/" + product.ImageUrl.TrimStart('/');
+                }
+                _context.Products.Add(product);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(IndexPr));
+            }
+            return View(product);
 
 
+        }
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var Product = await _context.Products.FindAsync(id);
+            if (Product == null)
+            {
+                return NotFound();
+            }
+            return View(Product);
+        }
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Description,ImageUrl")] Product product)
+        {
+            if (id != product.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(product);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!productExists(product.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(product);
+        }
+        private bool productExists(int id)
+        {
+            return _context.Products.Any(e => e.Id == id);
+        }
     }
 }

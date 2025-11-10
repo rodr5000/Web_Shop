@@ -16,6 +16,8 @@ namespace ShopSbS.Data
             : base(options)
         {
         }
+        public DbSet<Web_Shop.Models.Basket> Basket { get; set; } = default!;
+      
 
         // Add DbSet<TEntity> properties here, for example:
         // public DbSet<YourEntity> YourEntities { get; set; }

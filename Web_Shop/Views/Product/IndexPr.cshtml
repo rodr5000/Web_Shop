@@ -7,6 +7,7 @@ foreach
 @{
     ViewData["Title"] = "Product List";
 }
+<a class="custom-button"></a>
 
 <h2>Product List</h2>@* כותרת הדף *@
 
@@ -26,9 +27,10 @@ foreach
         {
             <tr>
                 <td>@product.Name</td>
-                <td>@product.Price.ToString("C")</td>
+                <td>@product.Price.ToString("") ₪</td>
                 <td>@product.Description</td>
                 <td>
+                   
                     @if (!string.IsNullOrEmpty(product.ImageUrl))
                     {
                         <img src="@product.ImageUrl" alt="@product.Name" style="max-width:100px;max-height:100px;" />
