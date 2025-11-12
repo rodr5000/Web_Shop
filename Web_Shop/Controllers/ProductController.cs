@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ShopSbS.Data;
 using Web_Shop.Models;
 
+
 namespace Web_Shop.Controllers
 {
     public class ProductController : Controller
@@ -47,7 +48,7 @@ namespace Web_Shop.Controllers
 
 
         }
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> EditPr(int? id)
         {
             if (id == null)
             {
@@ -86,7 +87,7 @@ namespace Web_Shop.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(IndexPr));
             }
             return View(product);
         }
