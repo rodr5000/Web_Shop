@@ -91,6 +91,22 @@ namespace Web_Shop.Controllers
             }
             return View(product);
         }
+        public async Task<IActionResult> DetailsPr(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var product = await _context.Products
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            return View(product);
+        }
         private bool productExists(int id)
         {
             return _context.Products.Any(e => e.Id == id);
