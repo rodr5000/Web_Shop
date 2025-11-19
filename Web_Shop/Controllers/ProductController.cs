@@ -78,6 +78,7 @@ namespace Web_Shop.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
+
                     if (!productExists(product.Id))
                     {
                         return NotFound();
@@ -89,7 +90,7 @@ namespace Web_Shop.Controllers
                 }
                 return RedirectToAction(nameof(IndexPr));
             }
-            return View(product);
+                return View(product);
         }
         public async Task<IActionResult> DetailsPr(int? id)
         {
@@ -106,6 +107,37 @@ namespace Web_Shop.Controllers
             }
 
             return View(product);
+        }
+        public async Task<IActionResult> DeletePr(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var product = await _context.Products
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            return View(product);
+        }
+
+       
+        [HttpPost, ActionName("DeletePr")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var product = await _context.Products.FindAsync(id);
+            if (product != null)
+            {
+                _context.Products.Remove(product);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(IndexPr));
         }
         private bool productExists(int id)
         {
